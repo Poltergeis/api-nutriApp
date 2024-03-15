@@ -1,29 +1,35 @@
-const helmet = require("helmet");
-const cors = require('cors');
-const express = require('express');
-const http = require('http');
-const dotenv = require('dotenv');
-const signale = require('signale');
-const mongoConn = require('./src/database/database');
+import express from 'express';
+import cors from 'cors';
+import signale from 'signale';
+import helmet from 'helmet';
+import dotenv from 'dotenv';
+import http from 'http';
 
-const port = process.env.PORT;
- 
+import { connectToMongo } from './src/database/database.js';
+
+import { userRouter } from './src/routes/userRouter.js';
+
 dotenv.config();
 
 const corsOptions = {
-    origin: ['http://localhost:3000']
+    origin: ['http://localhost:5173']
 }
 
 const app = express();
 
-app.use(cors(corsOptions));
+app.use('/user', userRouter);
+
 app.use(helmet());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 const server = http.createServer(app);
 
-mongoConn.connectToDatabase().then(() => {
-    server.listen(port, () => {
-        signale.success('api running');
+const PORT = process.env.PORT;
+const HOST = process.env.HOST;
+
+(await connectToMongo().then(() => {
+    server.listen(PORT, () => {
+        signale.info('la api esta funcionando en el puerto: ' + PORT);
     });
-});
+}));

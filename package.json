@@ -2,9 +2,10 @@
   "name": "api_multidiciplinario_c2",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "node-dev app.js",
     "start": "node app.js"
   },
   "keywords": [],
