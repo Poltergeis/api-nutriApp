@@ -1,5 +1,5 @@
 import express,{ Router } from "express";
-import { login,postNewUser } from "../controllers/userController.js";
+import { login,postNewUser,updateProfile } from "../controllers/userController.js";
 
 export const userRouter = Router();
 
@@ -19,6 +19,14 @@ userRouter.post('/login', async(req,res) => {
 userRouter.post('/postNewUser', async(req,res) => {
     try{
         await postNewUser(req,res);
+    }catch(error){
+        console.log(avgErrMessage,error);
+    }
+});
+
+userRouter.put('/update/:_id', async(req,res) => {
+    try{
+        await updateProfile(req,res);
     }catch(error){
         console.log(avgErrMessage,error);
     }
